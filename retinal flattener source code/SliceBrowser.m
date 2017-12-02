@@ -21,6 +21,7 @@
 %> Web: http://cmp.felk.cvut.cz/~uhercik/3DSliceViewer/3DSliceViewer.htm
 %> Last Modified by 21-Jul-2011
 % ======================================================================
+%  Modified by Matthew Schiel August 2016
 function varargout = SliceBrowser(varargin)
 
 % Documentation generated GUIDE:
