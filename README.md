@@ -19,5 +19,5 @@ https://www.mathworks.com/matlabcentral/fileexchange/60037-tiffread
 flexinterpn, Copyright (c) 2010, Jochen Weber     
 https://github.com/cjhammond/neuroelf
 
-peakdet, Copyright (c) 2015, Marco Borges    
-https://www.mathworks.com/matlabcentral/fileexchange/47264-peakdet
+peakdet, Eli Billauer   
+http://www.billauer.co.il/peakdet.html
