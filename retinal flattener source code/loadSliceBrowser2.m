@@ -1269,6 +1269,7 @@ for K=1:length(handles.newimstack(1, 1, :))
 end
 movefile(fullfile(pathname, strcat(filename, '.tmp')),fullfile(pathname, filename),'f');
 end
+guidata(hObject, handles);
 
 
 % --- Executes on button press in ignorecolumns.
