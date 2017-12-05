@@ -1,7 +1,7 @@
 # retinal-flattener
 Program to flatten retinal image stack using CHaT bands, see ![documentation](https://github.com/mschiel/retinal-flattener/wiki).
 
-| [![alt text](https://github.com/mschiel/retinal-flattener/blob/master/wiki/images/sequence.jpg")](https://github.com/mschiel/retinal-flattener/wiki) |
+| ![![alt text](https://github.com/mschiel/retinal-flattener/blob/master/wiki/images/sequence.jpg")](https://github.com/mschiel/retinal-flattener/wiki) |
 | --- |
 
 Based on code from Sümbül, U. et al. A genetic and computational approach to structurally classify neuronal types. Nat. Commun. 5:3512 doi: 10.1038/ncomms4512, 2014    
