@@ -22,7 +22,7 @@ function varargout = loadSliceBrowser2(varargin)
 
 % Edit the above text to modify the response to help loadSliceBrowser2
 
-% Last Modified by GUIDE v2.5 09-Mar-2016 18:36:17
+% Last Modified by GUIDE v2.5 04-Dec-2017 19:11:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,11 +54,12 @@ function loadSliceBrowser2_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for loadSliceBrowser2
 handles.output = hObject;
-global twostacks usepoints threestacks
+global twostacks usepoints threestacks singlesurface
 twostacks=0;
 threestacks=0;
 usepoints=1;
 set(handles.usepoints,'Value',usepoints);
+singlesurface=0;
 
 movegui('northwest');
 set(handles.loadedfile,'String','');
@@ -209,6 +210,7 @@ else
 end
 set(handles.viewslices,'Enable','on');
 set(handles.upsample,'Enable','on');
+set(handles.enableupsampling,'Enable','on');
 delete(h)
 guidata(hObject, handles);
 end
@@ -458,13 +460,13 @@ function processchat_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global twostacks singlesurface threestacks
-try
+% try
 [handles.VZminmesh,handles.VZmaxmesh]=processchat_nosave2(handles.imst2,str2double(get(handles.smoothing,'String')),str2double(get(handles.maxthick,'String')),singlesurface,get(handles.ignorecolumns,'Value'),handles.imst11);
-catch
-    errordlg(getReport(errorObj,'extended','hyperlinks','off'),'Error');    
-    handles.VZminmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
-    handles.VZmaxmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
-end
+% catch
+%     errordlg(getReport(errorObj,'extended','hyperlinks','off'),'Error');    
+%     handles.VZminmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
+%     handles.VZmaxmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
+% end
 'chat done'
 set(handles.saveflattenallch,'Enable','on');
 set(handles.flattench1,'Enable','on');
@@ -619,7 +621,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newimstack(i,j,1:zsize)=circshift(handles.supsampledimstack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newimstack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newimstack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -634,7 +636,7 @@ waitbar(i/ysize,h);
 for j=1:xsize
 handles.newVZminmesh(i,j)=round(handles.VZminmesh(i,j))+round((round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
 handles.newVZmaxmesh(i,j)=round(handles.VZmaxmesh(i,j))+round((round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(i,j)-handles.VZminmesh(i,j))/mthickness;
     A=interp1([-1,1],single([handles.newVZminmesh(i,j),handles.newVZmaxmesh(i,j)]),linspace(-1/scalevalue, 1/scalevalue, 2),'linear','extrap');
     handles.newVZminmesh(i,j)=A(1);
@@ -782,7 +784,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newim2stack(i,j,1:zsize)=circshift(handles.supsampledim2stack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newim2stack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newim2stack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -797,7 +799,7 @@ waitbar(i/ysize,h);
 for j=1:xsize
 handles.newVZminmesh(i,j)=round(handles.VZminmesh(i,j))+(round(round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
 handles.newVZmaxmesh(i,j)=round(handles.VZmaxmesh(i,j))+(round(round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(i,j)-handles.VZminmesh(i,j))/mthickness;
     A=interp1([-1,1],single([handles.newVZminmesh(i,j),handles.newVZmaxmesh(i,j)]),linspace(-1/scalevalue, 1/scalevalue, 2),'linear','extrap');
     handles.newVZminmesh(i,j)=A(1);
@@ -1127,7 +1129,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newim3stack(i,j,1:zsize)=circshift(handles.supsampledim3stack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newim3stack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newim3stack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -1142,7 +1144,7 @@ waitbar(i/ysize,h);
 for j=1:xsize
 handles.newVZminmesh(i,j)=round(handles.VZminmesh(i,j))+(round(round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
 handles.newVZmaxmesh(i,j)=round(handles.VZmaxmesh(i,j))+(round(round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(i,j)-handles.VZminmesh(i,j))/mthickness;
     A=interp1([-1,1],single([handles.newVZminmesh(i,j),handles.newVZmaxmesh(i,j)]),linspace(-1/scalevalue, 1/scalevalue, 2),'linear','extrap');
     handles.newVZminmesh(i,j)=A(1);
@@ -1194,7 +1196,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newimstack(i,j,1:zsize)=circshift(handles.supsampledimstack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newimstack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newimstack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -1207,7 +1209,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newim2stack(i,j,1:zsize)=circshift(handles.supsampledim2stack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newim2stack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newim2stack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -1221,7 +1223,7 @@ for i=1:xsize
 waitbar(i/xsize,h);
 for j=1:ysize
 handles.newim3stack(i,j,1:zsize)=circshift(handles.supsampledim3stack(i,j,1:zsize),round(round(zsize/2)-(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)+handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/2),3);
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(round(j/yscale)+1,round(i/xscale)+1)-handles.VZminmesh(round(j/yscale)+1,round(i/xscale)+1))/mthickness;
     handles.newim3stack(i,j,1:zsize)=int16(interp1(linspace(-zsize/2,zsize/2,zsize),single(squeeze(handles.newim3stack(i,j,1:zsize))),linspace(-zsize/2*scalevalue, zsize/2*scalevalue, zsize),'nearest','extrap'));
 end
@@ -1237,7 +1239,7 @@ waitbar(i/ysize,h);
 for j=1:xsize
 handles.newVZminmesh(i,j)=round(handles.VZminmesh(i,j))+round((round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
 handles.newVZmaxmesh(i,j)=round(handles.VZmaxmesh(i,j))+round((round(zsize/2)-(handles.VZmaxmesh(i,j)+handles.VZminmesh(i,j))/2));
-if scale&&~singlesurface
+if scale&~singlesurface
     scalevalue=(handles.VZmaxmesh(i,j)-handles.VZminmesh(i,j))/mthickness;
     A=interp1([-1,1],single([handles.newVZminmesh(i,j),handles.newVZmaxmesh(i,j)]),linspace(-1/scalevalue, 1/scalevalue, 2),'linear','extrap');
     handles.newVZminmesh(i,j)=A(1);
@@ -1249,7 +1251,7 @@ delete(h);
 set(handles.volumetoview,'String',{'original','upsampled','flattened'});
 set(handles.volumetoview,'Value',3);
 
-if ~twostacks&&~threestacks
+if ~twostacks&~threestacks
 for K=1:length(handles.newimstack(1, 1, :))
     imwrite(uint16(handles.newimstack(:, :, K)), fullfile(pathname, strcat(filename, '.tmp')),'tif', 'WriteMode', 'append', 'Compression','none');
 end
@@ -1299,3 +1301,14 @@ function movech1menu_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in enableupsampling.
+function enableupsampling_Callback(hObject, eventdata, handles)
+% hObject    handle to enableupsampling (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.xup,'Enable','on');
+set(handles.yup,'Enable','on');
+set(handles.zup,'Enable','on');
+set(handles.imethod,'Enable','on');
