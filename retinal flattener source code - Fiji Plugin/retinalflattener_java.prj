@@ -1,0 +1,179 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="4215543417" file="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java.prj" location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code" name="retinalflattener_java" preferred-package-location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
+    <param.appname>retinalflattener</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>17.0</param.version>
+    <param.authnamewatermark>Matthew Schiel, David Berson</param.authnamewatermark>
+    <param.email>matthew_schiel@brown.edu</param.email>
+    <param.company />
+    <param.summary>https://github.com/mschiel/retinal-flattener</param.summary>
+    <param.description>Based on code from Sümbül, U. et al. A genetic and computational approach to structurally classify neuronal types. Nat. Commun. 5:3512 doi: 10.1038/ncomms4512, 2014
+http://github.com/uygarsumbul/rgc</param.description>
+    <param.screenshot>${PROJECT_ROOT}\splash.png</param.screenshot>
+    <param.guid />
+    <param.installpath.string>\retinalflattener\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes>You must have Python 2.7, 3.3, or 3.4 on your machine to install this package. Go to the directory to which setup.py and your package have been written. Then execute:
+
+        python setup.py install [options]
+
+For details, see the readme.txt distributed with this package.</param.target.install.notes>
+    <param.intermediate>${PROJECT_ROOT}\retinalflattener_java\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\retinalflattener_java\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\retinalflattener_java\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\retinalflattener_java</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.java.package</param.target.type>
+    <param.support.packages />
+    <param.namespace />
+    <param.classorg />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>retinalflattener17_web_installer</param.web.mcr.name>
+    <param.package.mcr.name>retinalflattener17_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.assembly.type>false</param.assembly.type>
+    <param.encryption.key.file />
+    <param.net.enable.remoting>false</param.net.enable.remoting>
+    <param.net.tsa.enable>false</param.net.tsa.enable>
+    <param.net.tsa.assembly />
+    <param.net.tsa.interface />
+    <param.net.tsa.namespace />
+    <param.net.tsa.superclass>Class1</param.net.tsa.superclass>
+    <param.net.tsa.metadata />
+    <param.net.tsa.metadata.assembly>C:\Users\cdcu1\Documents\MATLAB</param.net.tsa.metadata.assembly>
+    <param.net.saved.interface />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.company />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.support.packages />
+      <param.namespace />
+      <param.classorg />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.user.only.registration />
+      <param.assembly.type />
+      <param.encryption.key.file />
+      <param.net.enable.remoting />
+      <param.net.tsa.enable />
+      <param.net.tsa.assembly />
+      <param.net.tsa.interface />
+      <param.net.tsa.namespace />
+      <param.net.tsa.superclass />
+      <param.net.tsa.metadata />
+      <param.net.tsa.metadata.assembly />
+      <param.net.saved.interface />
+    </unset>
+    <fileset.exports>
+      <file>${PROJECT_ROOT}\loadSliceBrowser2.m</file>
+    </fileset.exports>
+    <fileset.classes>
+      <entity.package name="">
+        <entity.class name="Class1">
+          <file>${PROJECT_ROOT}\loadSliceBrowser2.m</file>
+        </entity.class>
+      </entity.package>
+    </fileset.classes>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\flexinterpn.c</file>
+      <file>${PROJECT_ROOT}\flexinterpn.m</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexa64</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexglx</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexmaci</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexmaci64</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexw32</file>
+      <file>${PROJECT_ROOT}\flexinterpn.mexw64</file>
+      <file>${PROJECT_ROOT}\flexinterpn_demo.m</file>
+      <file>${PROJECT_ROOT}\flexinterpn_method.m</file>
+      <file>${PROJECT_ROOT}\flexinterpnw.m</file>
+      <file>${PROJECT_ROOT}\flexinterpnw_method.m</file>
+      <file>${PROJECT_ROOT}\gridfit.m</file>
+      <file>${PROJECT_ROOT}\isinfnan.c</file>
+      <file>${PROJECT_ROOT}\isinfnan.h</file>
+      <file>${PROJECT_ROOT}\isinfnan.m</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexa64</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexglx</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexmaci</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexmaci64</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexw32</file>
+      <file>${PROJECT_ROOT}\isinfnan.mexw64</file>
+      <file>${PROJECT_ROOT}\loadSliceBrowser2.m</file>
+      <file>${PROJECT_ROOT}\loadSliceBrowser_old.fig</file>
+      <file>${PROJECT_ROOT}\loadSliceBrowser_old.m</file>
+      <file>${PROJECT_ROOT}\maskcells.m</file>
+      <file>${PROJECT_ROOT}\maskcells2.m</file>
+      <file>${PROJECT_ROOT}\NNParams.mat</file>
+      <file>${PROJECT_ROOT}\NNpass.m</file>
+      <file>${PROJECT_ROOT}\peakdet.m</file>
+      <file>${PROJECT_ROOT}\processchat_nosave.m</file>
+      <file>${PROJECT_ROOT}\processchat_nosave2.m</file>
+      <file>${PROJECT_ROOT}\processchatNN.m</file>
+      <file>${PROJECT_ROOT}\quattrans.h</file>
+      <file>${PROJECT_ROOT}\SliceBrowser.fig</file>
+      <file>${PROJECT_ROOT}\SliceBrowser.m</file>
+      <file>${PROJECT_ROOT}\SliceBrowser_old.fig</file>
+      <file>${PROJECT_ROOT}\SliceBrowser_old.m</file>
+      <file>${PROJECT_ROOT}\splash.png</file>
+      <file>${PROJECT_ROOT}\tiffread.m</file>
+    </fileset.resources>
+    <fileset.depfun />
+    <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="retinalflattener.jar" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\retinalflattener.jar</file>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="doc" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\doc</file>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="readme.txt" optional="true">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2017b</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.1</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
