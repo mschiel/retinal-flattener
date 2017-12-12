@@ -2,8 +2,8 @@
 
 Program to flatten retinal image stack using CHaT bands,    
 see our ![documentation](https://github.com/mschiel/retinal-flattener/wiki).    
-Fiji plugin (https://fiji.sc/) on Windows: https://github.com/mschiel/retinal-flattener/releases/tag/v17.FJ   
-Windows program: https://github.com/mschiel/retinal-flattener/releases/tag/v17.1    
+Our ![Fiji plugin](https://github.com/mschiel/retinal-flattener/releases/tag/v17.FJ) for Windows.   (Fiji is available ![here](https://fiji.sc/).)   
+Our ![Windows program](https://github.com/mschiel/retinal-flattener/releases/tag/v17.1).    
   
 
 | [![alt text](https://github.com/mschiel/retinal-flattener/blob/master/wiki/images/sequence2.jpg)](https://github.com/mschiel/retinal-flattener/wiki) |
