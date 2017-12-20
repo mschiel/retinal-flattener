@@ -1,4 +1,4 @@
-function [VZminmesh,VZmaxmesh]=processchat_nosave2(imst2,smoothing,maxthick,singlesurface,ignorecols,imst11)
+function [VZminmesh,VZmaxmesh,maxdiffs]=processchat_nosave2(imst2,smoothing,maxthick,singlesurface,ignorecols,imst11)
 h = waitbar(0,'Please Wait... Creating ChAT Surfaces from Channel 1');
 warning off all
 clear imstackfilt chatimage2 totalchat
@@ -23,6 +23,7 @@ fsize=20;
 stdthresh=0.001;
 xsize=size(imstackfilt,1);%1024;
 ysize=size(imstackfilt,2);%1024;
+maxdiffs=[];
 for i=1:xsize
     waitbar(i/xsize,h);
 for j=1:ysize
@@ -70,6 +71,7 @@ if (size(maxtab2,1)>=2)
     [newmaxval,newmaxind]=sort(newmaxtab(1:2,1),'descend');
 %     newmaxtab=[newmaxtab(newmaxind,1) newmaxval];
     newmaxtab=[newmaxval newmaxtab(newmaxind,2)];
+maxdiffs=[maxdiffs abs(newmaxtab(1,1)-newmaxtab(2,1))];
 if (abs(newmaxtab(1,1)-newmaxtab(2,1))<maxthick)
 [cmax,cmaxind]=max([newmaxtab(1,1) newmaxtab(2,1)]);
 [cmin,cminind]=min([newmaxtab(1,1) newmaxtab(2,1)]);

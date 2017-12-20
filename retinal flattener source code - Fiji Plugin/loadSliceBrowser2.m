@@ -22,7 +22,7 @@ function varargout = loadSliceBrowser2(varargin)
 
 % Edit the above text to modify the response to help loadSliceBrowser2
 
-% Last Modified by GUIDE v2.5 12-Dec-2017 02:46:14
+% Last Modified by GUIDE v2.5 18-Dec-2017 09:40:15
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -32,7 +32,6 @@ gui_State = struct('gui_Name',       mfilename, ...
                    'gui_OutputFcn',  @loadSliceBrowser2_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
-
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -54,9 +53,8 @@ function loadSliceBrowser2_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to loadSliceBrowser2 (see VARARGIN)
 
 % Choose default command line output for loadSliceBrowser2
-handles.output = hObject;
-global twostacks usepoints threestacks singlesurface closeclicked
-closeclicked=0;
+% handles.output = hObject;
+global twostacks usepoints threestacks singlesurface
 twostacks=0;
 threestacks=0;
 usepoints=1;
@@ -142,10 +140,12 @@ set(handles.enableupsampling,'Enable','on');
 h = waitbar(1,'Please Wait... Updating');
 delete(h)
 guidata(hObject, handles);
-uiwait(gcf)
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 % UIWAIT makes loadSliceBrowser2 wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
+uiwait(gcf);
 
 
 % --- Outputs from this function are returned to the command line.
@@ -154,31 +154,19 @@ function varargout = loadSliceBrowser2_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global closeclicked
-% % Get default command line output from handles structure
-if closeclicked
-disp('trying to output imstack');
 handles=guidata(hObject);
-size(handles.newimstack)
 global twostacks threestacks
-outstack(:,:,1,:) = double(permute(handles.newimstack,[2 1 3]));
-if twostacks
-    outstack(:,:,2,:) = double(permute(handles.newim2stack,[2 1 3]));
-end
 if threestacks
-    outstack(:,:,3,:) = double(permute(handles.newim3stack,[2 1 3]));
+    handles.output(:,:,3,:)=permute(handles.newim3stack,[2 1 4 3]);
 end
-if threestacks    
-    varargout{1}=outstack(:,:,1:3,:);
-else
-    if twostacks
-        varargout{1}=outstack(:,:,1:2,:);
-    else
-        varargout{1}=outstack(:,:,1,:);
-    end
+if twostacks
+    handles.output(:,:,2,:)=permute(handles.newim2stack,[2 1 4 3]);
 end
-close
-end
+handles.output(:,:,1,:)=permute(handles.newimstack,[2 1 4 3]);
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+close all
 
 
 % --- Executes on button press in loadfile.
@@ -299,6 +287,9 @@ set(handles.upsample,'Enable','on');
 set(handles.enableupsampling,'Enable','on');
 delete(h)
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 end
 
 
@@ -470,6 +461,9 @@ end
 h = waitbar(1,'Please Wait... Updating');
 delete(h)
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 
@@ -548,12 +542,30 @@ function processchat_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global twostacks singlesurface threestacks
 % try
-[handles.VZminmesh,handles.VZmaxmesh]=processchat_nosave2(handles.imst2,str2double(get(handles.smoothing,'String')),str2double(get(handles.maxthick,'String')),singlesurface,get(handles.ignorecolumns,'Value'),handles.imst11);
+maxthick=str2double(get(handles.maxthick,'String'));
+[handles.VZminmesh,handles.VZmaxmesh,maxdiffs]=processchat_nosave2(handles.imst2,str2double(get(handles.smoothing,'String')),maxthick,singlesurface,get(handles.ignorecolumns,'Value'),handles.imst11);
 % catch
 %     errordlg(getReport(errorObj,'extended','hyperlinks','off'),'Error');    
 %     handles.VZminmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
 %     handles.VZmaxmesh=zeros(size(handles.supsampledimstack,1),size(handles.supsampledimstack,2));
 % end
+[Nhist,edgeshist]=histcounts(maxdiffs);
+[maxNhist,indNhist]=max(Nhist);
+indNhist2 = find(Nhist >= 3/4*maxNhist, 1, 'last');
+maxedgehist=1+edgeshist(indNhist2+1);
+axes(handles.thicknesshist);
+hg=histogram(maxdiffs);
+hg.Orientation = 'horizontal';
+hg.EdgeColor=hg.FaceColor;
+xlim([0,maxNhist*6/5]);
+set(gca,'XTickLabel',[])
+title('Thickness Between CHaT Layers','FontSize',6);
+ylabel('Pixels','FontSize',6);
+hold on;
+h2=line(xlim,[maxthick maxthick],'Color','k','LineWidth',2);
+h1=line(xlim,[maxedgehist maxedgehist],'Color','r','LineWidth',1,'LineStyle','--');
+lgd=legend([h1,h2],{sprintf(strcat('Estimated Max = ',num2str(maxedgehist))),sprintf(strcat('Applied Max = ',num2str(maxthick)))},'Position',[.52 .46 .05 .05],'color','none','box','off','Fontsize',8);
+hold off;
 'chat done'
 set(handles.saveflattenallch,'Enable','on');
 set(handles.flattench1,'Enable','on');
@@ -571,6 +583,9 @@ end
 h = waitbar(1,'Please Wait... Updating');
 delete(h)
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 
@@ -601,6 +616,8 @@ function viewslices_Callback(hObject, eventdata, handles)
 % hObject    handle to viewslices (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+Figures = findobj('Type','Figure','-not','Tag',get(handles.figure1,'Tag'));
+close(Figures)
 svalue=1;
 if get(handles.viewchannel1,'Value')
 if get(handles.volumetoview,'Value')==1
@@ -831,8 +848,6 @@ if get(hObject,'Value')
 else
     set(handles.viewchannel1,'Value',1)
 end
-h = waitbar(1,'Please Wait... Updating');
-delete(h)
 guidata(hObject, handles);
 
 
@@ -854,8 +869,6 @@ if get(hObject,'Value')
 else
     set(handles.viewchannel2,'Value',1)
 end
-h = waitbar(1,'Please Wait... Updating');
-delete(h)
 guidata(hObject, handles);
 
 
@@ -1033,6 +1046,9 @@ handles.imst10_resized(:,:,i)=imresize(imcomplement(255.*imst10(:,:,i)),2);
 end
 delete(h);
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 % --- Executes on button press in viewchannel3.
@@ -1053,8 +1069,6 @@ if get(hObject,'Value')
 else
     set(handles.viewchannel3,'Value',1)
 end
-h = waitbar(1,'Please Wait... Updating');
-delete(h)
 guidata(hObject, handles);
 
 
@@ -1361,7 +1375,7 @@ delete(h);
 set(handles.volumetoview,'String',{'original','upsampled','flattened'});
 set(handles.volumetoview,'Value',3);
 
-if (filename==0)&(pathname==0)
+if filename==0&pathname==0
 else
 if ~twostacks&~threestacks
 for K=1:length(handles.newimstack(1, 1, :))
@@ -1386,6 +1400,9 @@ set(handles.done,'Enable','on');
 h = waitbar(1,'Please Wait... Updating');
 delete(h);
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 % --- Executes on button press in ignorecolumns.
@@ -1466,6 +1483,9 @@ set(handles.channelorder,'String',num2str(chorder));
 h = waitbar(1,'Please Wait... Updating');
 delete(h)
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 % --- Executes on button press in switch1and3.
@@ -1497,6 +1517,9 @@ set(handles.channelorder,'String',num2str(chorder));
 h = waitbar(1,'Please Wait... Updating');
 delete(h)
 guidata(hObject, handles);
+figc=gcf;
+feval('viewslices_Callback',gcf,[], guidata(handles.viewslices));
+figure(figc);
 
 
 
@@ -1527,6 +1550,4 @@ function done_Callback(hObject, eventdata, handles)
 % hObject    handle to done (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global closeclicked
-closeclicked=1;
 uiresume(gcf);

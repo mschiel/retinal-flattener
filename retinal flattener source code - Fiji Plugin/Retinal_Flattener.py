@@ -1,8 +1,10 @@
-# @matrix data
+# @Dataset dsin
 # @DatasetService datasetService
 # @ImageJMATLABService ijmService
 # @ImageJ ij
 # @OUTPUT ImagePlus outds
+
+import sys
 
 from ij.plugin import RGBStackMerge
 from jarray import array
@@ -12,7 +14,6 @@ import net.imagej.Dataset
 import net.imagej.display.ImageDisplayService as ImageDisplayService
 import net.imagej.display.process.SingleInputPreprocessor
 import java.awt.Color
-import sys
 
 import org.scijava.Priority;
 import org.scijava.convert.AbstractConverter;
@@ -23,6 +24,9 @@ import org.scijava.plugin.Plugin;
 #import importlib
 #import os
 #print os.getcwd()
+
+java.lang.System.out.println('You can any ignore warning "console: Failed to install"')
+java.lang.System.out.println('Loading libraries...')
 
 
 
@@ -210,15 +214,20 @@ def extractChannel(imp, nChannel, nChannels):
 #import platform
 #print platform.python_version()
 
-java.lang.System.out.println('^^^You can ignore warning "console: Failed to install"^^^')
-java.lang.System.out.println('Converting active image stack to MATLAB numeric array\nand loading libraries...')
-#matrix = ijmService.getArray(ds)
+java.lang.System.out.println('Converting active image stack to MATLAB numeric array...')
+java.lang.System.out.println('Type is '+str(dsin.getTypeLabelShort())+', '+str(dsin.getBytesOfInfo())+' bytes of data')
+if str(dsin.getTypeLabelShort())!='8-bit uint':
+    java.lang.System.out.println('Consider converting to 8-bit for faster performance')
+timestr=str(int(dsin.getBytesOfInfo()*0.000000245))+' seconds estimated to convert'
+java.lang.System.out.println(timestr)
 
+data = ijmService.getArray(dsin)
+java.lang.System.out.println('Starting Browser...')
 #getmagic.main(data)
 theMagic=Class1()
 print data.lengths
 #dout=data;
-java.lang.System.out.println('Starting Browser...')
+
 if data.dimensions == 3:
     [dout]=theMagic.loadSliceBrowser2(1,data.realArray3D)
 if data.dimensions == 4:
@@ -235,12 +244,12 @@ if data.dimensions == 4:
   #  theMagic.loadSliceBrowser2(1,data.realArray3D)
 #if data.dimensions == 4:
 #    theMagic.loadSliceBrowser2(1,data.realArray4D)
+java.lang.System.out.println(timestr+' back')
 doutMNarray=matlabcontrol.extensions.MatlabNumericArray(dout.toDoubleArray(),dout.toDoubleArray())
 #print dir(ij)
 outds1 = ijmService.getDataset(doutMNarray)
 imp = ij.convert().convert(outds1, ImagePlus)
 #outds=ImagePlus("channel1",dout.toDoubleArray())
-print imp.getNFrames()
 if data.lengths[2]==2:
   outds1 = extractChannel(imp, 1, 2)
   outds2 = extractChannel(imp, 2, 2)
@@ -258,3 +267,5 @@ else:
     outds = RGBStackMerge.mergeChannels(array([outds1,outds2,outds3],ImagePlus),0)
   else:
     outds = imp
+outds.show()
+IJ.run("Multichannel ZT-axis Profile","statschoice=Mean calibratedx=true spacer=[ ] zoption=[Active plane] activatechannelwidget=false allowroutine=true imp=Composite")

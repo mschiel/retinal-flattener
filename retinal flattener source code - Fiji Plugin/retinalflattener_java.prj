@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="4215543417" file="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java.prj" location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code" name="retinalflattener_java" preferred-package-location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
+  <configuration build-checksum="827851229" file="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code\retinalflattener_java.prj" location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code" name="retinalflattener_java" preferred-package-location="C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code\retinalflattener_java\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.library" target-name="Library Compiler">
     <param.appname>retinalflattener</param.appname>
     <param.icon />
     <param.icons />
@@ -141,12 +141,25 @@ For details, see the readme.txt distributed with this package.</param.target.ins
       <file>${PROJECT_ROOT}\splash.png</file>
       <file>${PROJECT_ROOT}\tiffread.m</file>
     </fileset.resources>
-    <fileset.depfun />
+    <fileset.depfun>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\flexinterpn.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\flexinterpn.mexw64</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\flexinterpn_method.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\flexinterpnw.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\gridfit.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\NNParams.mat</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\NNpass.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\peakdet.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\processchat_nosave2.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\processchatNN.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\SliceBrowser.m</file>
+      <file>C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinal flattener source code\tiffread.m</file>
+    </fileset.depfun>
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="retinalflattener.jar" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\retinalflattener.jar</file>
-      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="doc" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\doc</file>
-      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="readme.txt" optional="true">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code\retinalflattener_java\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="readme.txt" optional="true">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code\retinalflattener_java\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="doc" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code\retinalflattener_java\for_testing\doc</file>
+      <file location="${PROJECT_ROOT}\retinalflattener_java\for_testing" name="retinalflattener.jar" optional="false">C:\Users\cdcu1\Documents\MATLAB\retinal-flattener-16\retinal-flattener-16\retinal flattener source code - fiji plugin\retinal flattener source code\retinalflattener_java\for_testing\retinalflattener.jar</file>
     </build-deliverables>
     <workflow />
     <matlab>
