@@ -2,13 +2,15 @@
 # @DatasetService datasetService
 # @ImageJMATLABService ijmService
 # @ImageJ ij
-# @OUTPUT ImagePlus outds
+# @OUTPUT Dataset outds1
 
 import sys
+# @OUTPUT ImagePlus outds
 
 from ij.plugin import RGBStackMerge
-from jarray import array
+from jarray import array, zeros
 from ij import IJ, ImagePlus, ImageStack
+from ij.process import ImageProcessor, FloatProcessor
 import matlabcontrol.extensions.MatlabNumericArray
 import net.imagej.Dataset
 import net.imagej.display.ImageDisplayService as ImageDisplayService
@@ -25,7 +27,7 @@ import org.scijava.plugin.Plugin;
 #import os
 #print os.getcwd()
 
-java.lang.System.out.println('You can any ignore warning "console: Failed to install"')
+java.lang.System.out.println('You can ignore any warning "console: Failed to install"')
 java.lang.System.out.println('Loading libraries...')
 
 
@@ -189,9 +191,21 @@ def extractChannel(imp, nChannel, nChannels):
  """ Extract a stack for a specific color channel """
  stack = imp.getImageStack()
  ch = ImageStack(imp.width, imp.height)
- for i in range(1, imp.getNFrames()/nChannels + 1):
+ for i in range(1, imp.getNSlices() + 1):
    index = (i-1)*nChannels+nChannel
    ch.addSlice(str(i), stack.getProcessor(index))
+ return ImagePlus("Channel " + str(nChannel), ch)
+
+def createChannel(darray,h,w,z,nChannel):
+ """ Create a stack for a specific color channel """
+ ch = ImageStack(w, h)
+# imp = ImagePlus("my new image", FloatProcessor(w, h))
+# fp = imp.getProcessor()
+# fparray = zeros(w,h,'f')
+ for i in range(0, z):
+#     fparray[:][:]=doutarray[:][:][nChannel][i]
+#     fp.setFloatArray(fparray)
+     ch.addSlice(str(i), FloatProcessor(w,h,[doutarray[:][:][nChannel][i].tolist()]))
  return ImagePlus("Channel " + str(nChannel), ch)
 
 #print dir()
@@ -214,24 +228,34 @@ def extractChannel(imp, nChannel, nChannels):
 #import platform
 #print platform.python_version()
 
-java.lang.System.out.println('Converting active image stack to MATLAB numeric array...')
+#java.lang.System.out.println('Converting active image stack to MATLAB numeric array...')
 java.lang.System.out.println('Type is '+str(dsin.getTypeLabelShort())+', '+str(dsin.getBytesOfInfo())+' bytes of data')
-if str(dsin.getTypeLabelShort())!='8-bit uint':
-    java.lang.System.out.println('Consider converting to 8-bit for faster performance')
-timestr=str(int(dsin.getBytesOfInfo()*0.000000245))+' seconds estimated to convert'
-java.lang.System.out.println(timestr)
-
-data = ijmService.getArray(dsin)
+#timestr=str(int(dsin.getBytesOfInfo()*0.000000245))+' seconds estimated to convert'
+#java.lang.System.out.println(timestr)
+h = (dsin.getHeight())
+w = (dsin.getWidth())
+z = (dsin.getDepth())
+c = (dsin.getChannels())
+dsinlist=[array([h,w,z,c],'f')]
+impin = ij.convert().convert(dsin, ImagePlus)
+stackin = impin.getImageStack()
+stackin.convertToFloat()
+for i in range(1, z*c+1):
+    ip=stackin.getProcessor(i)
+    fp=ip.convertToFloatProcessor();
+    dsinlist.append(fp.getPixels())
+#    dsinlist.append(dsin.getPlane(i))
+#data = ijmService.getArray(dsin)
 java.lang.System.out.println('Starting Browser...')
 #getmagic.main(data)
 theMagic=Class1()
-print data.lengths
 #dout=data;
 
-if data.dimensions == 3:
-    [dout]=theMagic.loadSliceBrowser2(1,data.realArray3D)
-if data.dimensions == 4:
-   [dout]=theMagic.loadSliceBrowser2(1,data.realArray4D)
+[dout]=theMagic.loadSliceBrowser2(1,dsinlist)
+#if data.dimensions == 3:
+#    [dout]=theMagic.loadSliceBrowser2(1,data.realArray3D)
+#if data.dimensions == 4:
+#   [dout]=theMagic.loadSliceBrowser2(1,data.realArray4D)
 #dout2=data
 #array2=dout2.getRealArray4D()
 #array2=dout
@@ -244,20 +268,37 @@ if data.dimensions == 4:
   #  theMagic.loadSliceBrowser2(1,data.realArray3D)
 #if data.dimensions == 4:
 #    theMagic.loadSliceBrowser2(1,data.realArray4D)
-java.lang.System.out.println(timestr+' back')
-doutMNarray=matlabcontrol.extensions.MatlabNumericArray(dout.toDoubleArray(),dout.toDoubleArray())
-#print dir(ij)
-outds1 = ijmService.getDataset(doutMNarray)
-imp = ij.convert().convert(outds1, ImagePlus)
-#outds=ImagePlus("channel1",dout.toDoubleArray())
-if data.lengths[2]==2:
+java.lang.System.out.println('Converting back')
+#doutMNarray=matlabcontrol.extensions.MatlabNumericArray(dout.toDoubleArray(),dout.toDoubleArray())
+doutarray=dout.getFloatData()
+
+#imp1=dsin.duplicate()
+#imp = ij.convert().convert(imp1, ImagePlus)
+imp = ImagePlus()
+imp.setDimensions(c,z,1)
+stack = ImageStack(h,w)
+#imp1.copyDataFrom(dsin)
+k=0
+ioffset=0
+planesize=h*w
+for i in range(0, z):
+    for j in range(0, c):
+        k=k+1
+        stack.addSlice(str(k),FloatProcessor(h,w,doutarray[ioffset:(ioffset+planesize)]))
+        ioffset=ioffset+planesize
+#outds1 = ijmService.getDataset(doutMNarray)
+imp.setStack(stack,c,z,1)
+
+if c==2:
   outds1 = extractChannel(imp, 1, 2)
   outds2 = extractChannel(imp, 2, 2)
+#  outds1 = createChannel(doutarray,h,w,z,1)
+#  outds2 = createChannel(doutarray,h,w,z,2)
   outds1.setColor(java.awt.Color.RED)
   outds2.setColor(java.awt.Color.GREEN)
   outds = RGBStackMerge.mergeChannels(array([outds1,outds2],ImagePlus),0)
 else:
-  if data.lengths[2]>2:
+  if c>2:
     outds1 = extractChannel(imp, 1, 3)
     outds2 = extractChannel(imp, 2, 3)
     outds3 = extractChannel(imp, 3, 3)
@@ -266,6 +307,6 @@ else:
     outds3.setColor(java.awt.Color.BLUE)
     outds = RGBStackMerge.mergeChannels(array([outds1,outds2,outds3],ImagePlus),0)
   else:
-    outds = imp
+    outds=imp
 outds.show()
 IJ.run("Multichannel ZT-axis Profile","statschoice=Mean calibratedx=true spacer=[ ] zoption=[Active plane] activatechannelwidget=false allowroutine=true imp=Composite")
