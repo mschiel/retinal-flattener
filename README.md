@@ -2,9 +2,9 @@
 
 Program to flatten retinal image stacks using 2 immunolabeled layers (such as choline acetyltransferase, CHaT)
 or using a single layer (such as melanopsin), and up to 2 additionally labeled channels can be flattened based on this.   
-See our ![documentation](https://github.com/mschiel/retinal-flattener/wiki).    
-Our ![Fiji plugin](https://github.com/mschiel/retinal-flattener/releases/tag/v17.FJ) for Windows.   (Fiji is available ![here](https://fiji.sc/).)   
-Our ![Windows program](https://github.com/mschiel/retinal-flattener/releases/tag/v17.1).    
+See our [documentation](https://github.com/mschiel/retinal-flattener/wiki).    
+Our [Fiji plugin](https://github.com/mschiel/retinal-flattener/releases/tag/v17.FJ) for Windows.   (Fiji is available [here](https://fiji.sc/).)   
+Our [Windows program](https://github.com/mschiel/retinal-flattener/releases/tag/v17.1).    
   
 
 | [![alt text](https://github.com/mschiel/retinal-flattener/blob/master/wiki/images/sequence2.jpg)](https://github.com/mschiel/retinal-flattener/wiki) |
