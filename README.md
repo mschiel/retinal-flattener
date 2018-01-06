@@ -9,7 +9,7 @@ See our [documentation](https://github.com/mschiel/retinal-flattener/wiki).
 Our new [Fiji plugin](https://github.com/mschiel/retinal-flattener/releases/tag/v17.FJ) for Windows!   (Fiji is available [here](https://fiji.sc/).)   
 Our [Windows program](https://github.com/mschiel/retinal-flattener/releases/tag/v17.1) (this is an older version).
 
-If used please cite our paper on the M5 cell, a color-opponent ipRGC:    
+If used you can cite our paper on the M5 cell, a color-opponent ipRGC:    
 http://www.cell.com/neuron/fulltext/S0896-6273(17)31083-8    
 Stabio ME, Sabbah S, Quattrochi LE, Ilardi MC, Fogerson PM, Leyrer ML, Kim MT, Kim I, Schiel M, Renna JM, Briggman KL, Berson DM. The M5 Cell: A Color-Opponent Intrinsically Photosensitive Retinal Ganglion Cell. Neuron. 2018 Jan 3;97(1):251.
   
